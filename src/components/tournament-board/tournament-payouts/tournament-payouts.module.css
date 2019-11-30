@@ -1,0 +1,12 @@
+.payouts {
+  text-align:center;
+}
+
+.payout {
+  display:inline-block;
+  font-size:3.2em;
+  padding-left:2em;
+  padding-right:2em;
+  white-space:nowrap;
+}
+
