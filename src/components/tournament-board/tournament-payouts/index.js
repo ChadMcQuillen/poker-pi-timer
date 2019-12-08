@@ -1,1 +1,1 @@
-export { default } from './tournament-payouts-view.js'
+export { default } from './tournament-payouts-view.js';

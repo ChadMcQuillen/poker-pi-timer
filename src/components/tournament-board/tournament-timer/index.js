@@ -1,1 +1,1 @@
-export { default } from './tournament-timer-view.js'
+export { default } from './tournament-timer-view.js';

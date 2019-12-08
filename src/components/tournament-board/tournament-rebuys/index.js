@@ -1,1 +1,1 @@
-export { default } from './tournament-rebuys-view.js'
+export { default } from './tournament-rebuys-view.js';

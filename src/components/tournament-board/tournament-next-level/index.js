@@ -1,1 +1,1 @@
-export { default } from './tournament-next-level-view.js'
+export { default } from './tournament-next-level-view.js';

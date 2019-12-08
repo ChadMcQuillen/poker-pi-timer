@@ -1,1 +1,1 @@
-export { default } from './tournament-blinds-view.js'
+export { default } from './tournament-blinds-view.js';
