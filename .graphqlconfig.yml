@@ -1,0 +1,15 @@
+projects:
+  Poker Pi:
+    schemaPath: src/graphql/schema.json
+    includes:
+      - src/graphql/**/*.js
+    excludes:
+      - ./amplify/**
+    extensions:
+      amplify:
+        codeGenTarget: javascript
+        generatedFileName: ''
+        docsFilePath: src/graphql
+        region: us-east-1
+        apiId: vop3ox3qunc67j7k4jyh4olmny
+        maxDepth: 2
