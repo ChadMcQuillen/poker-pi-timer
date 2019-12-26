@@ -21,6 +21,17 @@ export const onCreateTournament = `subscription OnCreateTournament(
     buyIn
     rebuyAmount
     rebuyThroughLevel
+    levelsAndBreaks {
+      id
+      index
+      levelType
+      levelIndex
+      levelTime
+      smallBlind
+      bigBlind
+      ante
+      tournamentId
+    }
   }
 }
 `;
@@ -44,6 +55,17 @@ export const onUpdateTournament = `subscription OnUpdateTournament(
     buyIn
     rebuyAmount
     rebuyThroughLevel
+    levelsAndBreaks {
+      id
+      index
+      levelType
+      levelIndex
+      levelTime
+      smallBlind
+      bigBlind
+      ante
+      tournamentId
+    }
   }
 }
 `;
@@ -67,6 +89,95 @@ export const onDeleteTournament = `subscription OnDeleteTournament(
     buyIn
     rebuyAmount
     rebuyThroughLevel
+    levelsAndBreaks {
+      id
+      index
+      levelType
+      levelIndex
+      levelTime
+      smallBlind
+      bigBlind
+      ante
+      tournamentId
+    }
+  }
+}
+`;
+export const onCreateLevel = `subscription OnCreateLevel(
+  $id: ID
+  $index: Int
+  $levelType: String
+  $levelIndex: Int
+  $levelTime: Int
+) {
+  onCreateLevel(
+    id: $id
+    index: $index
+    levelType: $levelType
+    levelIndex: $levelIndex
+    levelTime: $levelTime
+  ) {
+    id
+    index
+    levelType
+    levelIndex
+    levelTime
+    smallBlind
+    bigBlind
+    ante
+    tournamentId
+  }
+}
+`;
+export const onUpdateLevel = `subscription OnUpdateLevel(
+  $id: ID
+  $index: Int
+  $levelType: String
+  $levelIndex: Int
+  $levelTime: Int
+) {
+  onUpdateLevel(
+    id: $id
+    index: $index
+    levelType: $levelType
+    levelIndex: $levelIndex
+    levelTime: $levelTime
+  ) {
+    id
+    index
+    levelType
+    levelIndex
+    levelTime
+    smallBlind
+    bigBlind
+    ante
+    tournamentId
+  }
+}
+`;
+export const onDeleteLevel = `subscription OnDeleteLevel(
+  $id: ID
+  $index: Int
+  $levelType: String
+  $levelIndex: Int
+  $levelTime: Int
+) {
+  onDeleteLevel(
+    id: $id
+    index: $index
+    levelType: $levelType
+    levelIndex: $levelIndex
+    levelTime: $levelTime
+  ) {
+    id
+    index
+    levelType
+    levelIndex
+    levelTime
+    smallBlind
+    bigBlind
+    ante
+    tournamentId
   }
 }
 `;

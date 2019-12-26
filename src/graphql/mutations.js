@@ -9,6 +9,17 @@ export const createTournament = `mutation CreateTournament($input: CreateTournam
     buyIn
     rebuyAmount
     rebuyThroughLevel
+    levelsAndBreaks {
+      id
+      index
+      levelType
+      levelIndex
+      levelTime
+      smallBlind
+      bigBlind
+      ante
+      tournamentId
+    }
   }
 }
 `;
@@ -20,6 +31,17 @@ export const updateTournament = `mutation UpdateTournament($input: UpdateTournam
     buyIn
     rebuyAmount
     rebuyThroughLevel
+    levelsAndBreaks {
+      id
+      index
+      levelType
+      levelIndex
+      levelTime
+      smallBlind
+      bigBlind
+      ante
+      tournamentId
+    }
   }
 }
 `;
@@ -31,6 +53,59 @@ export const deleteTournament = `mutation DeleteTournament($input: DeleteTournam
     buyIn
     rebuyAmount
     rebuyThroughLevel
+    levelsAndBreaks {
+      id
+      index
+      levelType
+      levelIndex
+      levelTime
+      smallBlind
+      bigBlind
+      ante
+      tournamentId
+    }
+  }
+}
+`;
+export const createLevel = `mutation CreateLevel($input: CreateLevelInput!) {
+  createLevel(input: $input) {
+    id
+    index
+    levelType
+    levelIndex
+    levelTime
+    smallBlind
+    bigBlind
+    ante
+    tournamentId
+  }
+}
+`;
+export const updateLevel = `mutation UpdateLevel($input: UpdateLevelInput!) {
+  updateLevel(input: $input) {
+    id
+    index
+    levelType
+    levelIndex
+    levelTime
+    smallBlind
+    bigBlind
+    ante
+    tournamentId
+  }
+}
+`;
+export const deleteLevel = `mutation DeleteLevel($input: DeleteLevelInput!) {
+  deleteLevel(input: $input) {
+    id
+    index
+    levelType
+    levelIndex
+    levelTime
+    smallBlind
+    bigBlind
+    ante
+    tournamentId
   }
 }
 `;
