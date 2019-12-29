@@ -1,31 +1,32 @@
 import React from 'react';
 import styles from './tournament-blind-schedule.module.css';
 
-function mapBlindSchedule( levels, startIndex, endIndex ) {
+function mapBlindSchedule( levels, currentLevelIndex, startIndex, endIndex ) {
     return levels.slice(startIndex, endIndex + 1).map( function( level, i ) {
+        var className = `${ i === ( currentLevelIndex - startIndex ) ? styles.selectedText : styles.text }`;
         if ( level.levelType === 'Level' ) {
             if ( level.ante === 0 ) {
                 var blinds = '$' + level.smallBlind + ' / $' + level.bigBlind;
                 return(
                     <React.Fragment key = { i }>
-                      <tr><td className = { styles.text }>Level { level.levelIndex }</td></tr>
-                      <tr><td className = { styles.text }>{ blinds }</td></tr>
+                      <tr><td className = { className }>Level { level.levelIndex }</td></tr>
+                      <tr><td className = { className }>{ blinds }</td></tr>
                     </React.Fragment>
                 );
             } else {
                 var blindsAndAnte = '$' + level.smallBlind + ' / $' + level.bigBlind + ' / $' + level.ante;
                 return(
                     <React.Fragment key = { i }>
-                      <tr><td className = { styles.text }>Level { level.levelIndex }</td></tr>
-                      <tr><td className = { styles.text }>{ blindsAndAnte }</td></tr>
+                      <tr><td className = { className }>Level { level.levelIndex }</td></tr>
+                      <tr><td className = { className }>{ blindsAndAnte }</td></tr>
                     </React.Fragment>
                 );
             }
         } else {
             return(
                 <React.Fragment key = { i }>
-                  <tr><td className = { styles.text }>Break { level.levelIndex }</td></tr>
-                  <tr><td className = { styles.text }>{ level.levelTime } minutes</td></tr>
+                  <tr><td className = { className }>Break { level.levelIndex }</td></tr>
+                  <tr><td className = { className }>{ level.levelTime } minutes</td></tr>
                 </React.Fragment>
             );
         }
@@ -50,7 +51,7 @@ class TournamentBlindScheduleView extends React.Component {
         return (
           <table className = { styles.blindSchedule }>
             <tbody>
-              { mapBlindSchedule( levels, startBlindIndex, endBlindIndex ) }
+              { mapBlindSchedule( levels, levelIndex, startBlindIndex, endBlindIndex ) }
             </tbody>
           </table>
         );
