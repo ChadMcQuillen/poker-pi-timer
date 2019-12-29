@@ -21,7 +21,9 @@ class TournamentTimerView extends React.Component {
         const showHours = this.props.showHours;
         return (
           <div className = { styles.text }>
-            <div className = { styles.child }>{ formatTime( secondsRemaining, showHours ) }</div>
+            <div className = { `${ secondsRemaining > 5 ? styles.child : styles.childRed }` }>
+              { formatTime( secondsRemaining, showHours ) }
+            </div>
           </div>
         );
     }
