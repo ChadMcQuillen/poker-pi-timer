@@ -35,5 +35,17 @@ export default class GraphQLTournamentControlService extends TournamentControlSe
                 this.tournament.next( this.activeTournament );
             } );
         } );
+
+
+        this.client.subscribe( { query: gql( onUpdateActiveTournament ),
+            variables: {
+                id: process.env.REACT_APP_TOURNAMENT_ID
+            } } )
+        .subscribe({
+            next: ( tournamentInfo ) => {
+                tournamentInfo.data.onUpdateActiveTournament.tournamentInfo = this.activeTournament.tournamentInfo;
+                this.tournament.next( tournamentInfo.data.onUpdateActiveTournament );
+            }
+        });
 	}
 }
