@@ -181,3 +181,63 @@ export const onDeleteLevel = `subscription OnDeleteLevel(
   }
 }
 `;
+export const onCreateActiveTournament = `subscription OnCreateActiveTournament(
+  $id: ID
+  $tournamentId: ID
+  $state: TournamentState
+  $numberOfEntrants: Int
+  $numberOfPlayersRemaining: Int
+) {
+  onCreateActiveTournament(
+    id: $id
+    tournamentId: $tournamentId
+    state: $state
+    numberOfEntrants: $numberOfEntrants
+    numberOfPlayersRemaining: $numberOfPlayersRemaining
+  ) {
+    id
+    tournamentId
+    state
+    numberOfEntrants
+    numberOfPlayersRemaining
+    numberOfRebuys
+    currentLevelIndex
+  }
+}
+`;
+export const onUpdateActiveTournament = `subscription OnUpdateActiveTournament($id: ID) {
+  onUpdateActiveTournament(id: $id) {
+    id
+    tournamentId
+    state
+    numberOfEntrants
+    numberOfPlayersRemaining
+    numberOfRebuys
+    currentLevelIndex
+  }
+}
+`;
+export const onDeleteActiveTournament = `subscription OnDeleteActiveTournament(
+  $id: ID
+  $tournamentId: ID
+  $state: TournamentState
+  $numberOfEntrants: Int
+  $numberOfPlayersRemaining: Int
+) {
+  onDeleteActiveTournament(
+    id: $id
+    tournamentId: $tournamentId
+    state: $state
+    numberOfEntrants: $numberOfEntrants
+    numberOfPlayersRemaining: $numberOfPlayersRemaining
+  ) {
+    id
+    tournamentId
+    state
+    numberOfEntrants
+    numberOfPlayersRemaining
+    numberOfRebuys
+    currentLevelIndex
+  }
+}
+`;

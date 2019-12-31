@@ -109,3 +109,39 @@ export const deleteLevel = `mutation DeleteLevel($input: DeleteLevelInput!) {
   }
 }
 `;
+export const createActiveTournament = `mutation CreateActiveTournament($input: CreateActiveTournamentInput!) {
+  createActiveTournament(input: $input) {
+    id
+    tournamentId
+    state
+    numberOfEntrants
+    numberOfPlayersRemaining
+    numberOfRebuys
+    currentLevelIndex
+  }
+}
+`;
+export const updateActiveTournament = `mutation UpdateActiveTournament($input: UpdateActiveTournamentInput!) {
+  updateActiveTournament(input: $input) {
+    id
+    tournamentId
+    state
+    numberOfEntrants
+    numberOfPlayersRemaining
+    numberOfRebuys
+    currentLevelIndex
+  }
+}
+`;
+export const deleteActiveTournament = `mutation DeleteActiveTournament($input: DeleteActiveTournamentInput!) {
+  deleteActiveTournament(input: $input) {
+    id
+    tournamentId
+    state
+    numberOfEntrants
+    numberOfPlayersRemaining
+    numberOfRebuys
+    currentLevelIndex
+  }
+}
+`;

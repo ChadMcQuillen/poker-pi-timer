@@ -101,3 +101,34 @@ export const queryLevelsByTournamentIdIndex = `query QueryLevelsByTournamentIdIn
   }
 }
 `;
+export const getActiveTournament = `query GetActiveTournament($id: ID!) {
+  getActiveTournament(id: $id) {
+    id
+    tournamentId
+    state
+    numberOfEntrants
+    numberOfPlayersRemaining
+    numberOfRebuys
+    currentLevelIndex
+  }
+}
+`;
+export const listActiveTournaments = `query ListActiveTournaments(
+  $filter: TableActiveTournamentFilterInput
+  $limit: Int
+  $nextToken: String
+) {
+  listActiveTournaments(filter: $filter, limit: $limit, nextToken: $nextToken) {
+    items {
+      id
+      tournamentId
+      state
+      numberOfEntrants
+      numberOfPlayersRemaining
+      numberOfRebuys
+      currentLevelIndex
+    }
+    nextToken
+  }
+}
+`;
