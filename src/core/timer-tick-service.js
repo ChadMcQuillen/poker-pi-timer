@@ -1,10 +1,10 @@
-import { Observable } from 'rxjs';
+import { Observable, timer } from 'rxjs';
 
 export default class TimerTickService {
     constructor() {
         this.timerTickObservable = Observable.create(observer => {
-            let timer = Observable.timer(1000, 1000);
-            this.timerSubscription = timer.subscribe(t=> {
+            var timerSource = timer(1000, 1000);
+            this.timerSubscription = timerSource.subscribe(t=> {
                 observer.next(0);
             });
             return () => {
