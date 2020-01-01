@@ -28,8 +28,36 @@ class App extends React.Component {
               <div>Loading...</div>
             )
         } else {
+            const {
+                tournamentInfo: {
+                    title,
+                    description,
+                    buyIn,
+                    rebuyAmount,
+                    rebuyThroughLevel,
+                    levelsAndBreaks
+                },
+                currentLevelIndex,
+                numberOfEntrants,
+                numberOfPlayersRemaining,
+                numberOfRebuys,
+                payouts,
+                secondsRemaining
+            } = this.state.tournament;
             return (
-              <TournamentBoardView tournament = { this.state.tournament } />
+              <TournamentBoardView
+                title = { title }
+                description = { description }
+                buyIn = { buyIn }
+                rebuyAmount = { rebuyAmount }
+                rebuyThroughLevel = { rebuyThroughLevel }
+                numberOfEntrants = { numberOfEntrants }
+                numberOfPlayersRemaining = { numberOfPlayersRemaining }
+                numberOfRebuys = { numberOfRebuys }
+                currentLevelIndex = { currentLevelIndex }
+                levelsAndBreaks = { levelsAndBreaks }
+                payouts = { payouts}
+                secondsRemaining = { secondsRemaining } />
             );
         }
     }

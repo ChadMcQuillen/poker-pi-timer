@@ -18,66 +18,76 @@ function calculatePot( buyinAmount, numberOfEntries, numberOfRebuys ) {
 
 class TournamentBoardView extends React.Component {
     render() {
+        const {
+            title,
+            description,
+            buyIn,
+            rebuyAmount,
+            rebuyThroughLevel,
+            levelsAndBreaks,
+            currentLevelIndex,
+            numberOfEntrants,
+            numberOfPlayersRemaining,
+            numberOfRebuys,
+            payouts,
+            secondsRemaining
+        } = this.props;
         return (
           <div className='tournamentBoard'>
             <div className='header'>
               <TournamentTitleView
-                title = { this.props.tournament.tournamentInfo.title }
-                description = { this.props.tournament.tournamentInfo.description } />
+                title = { title }
+                description = { description } />
             </div>
             <div className='leftColumn'>
               <div className='levelContainer'>
                 <TournamentLevelView
-                  levelTitle = { this.props.tournament.tournamentInfo.levelsAndBreaks[ this.props.tournament.currentLevelIndex ].levelType }
-                  level = { this.props.tournament.tournamentInfo.levelsAndBreaks[ this.props.tournament.currentLevelIndex ].levelIndex } />
+                  levelTitle = { levelsAndBreaks[ currentLevelIndex ].levelType }
+                  level = { levelsAndBreaks[ currentLevelIndex ].levelIndex } />
               </div>
               <div className='entriesContainer'>
                 <TournamentEntriesView
-                  numberOfEntries = { this.props.tournament.numberOfEntrants } />
+                  numberOfEntries = { numberOfEntrants } />
               </div>
               <div className='playersContainer'>
                 <TournamentPlayersView
-                  numberOfPlayersRemaining = { this.props.tournament.numberOfPlayersRemaining } />
+                  numberOfPlayersRemaining = { numberOfPlayersRemaining } />
               </div>
               <div className='rebuysContainer'>
                 <TournamentRebuysView
-                  numberOfRebuys = { this.props.tournament.numberOfRebuys } />
+                  numberOfRebuys = { numberOfRebuys } />
               </div>
               <div className='potContainer'>
                 <TournamentPotView
-                  pot = { calculatePot( this.props.tournament.tournamentInfo.buyIn,
-                                        this.props.tournament.numberOfEntrants,
-                                        this.props.tournament.numberOfRebuys ) } />
+                  pot = { calculatePot( buyIn, numberOfEntrants, numberOfRebuys ) } />
               </div>
             </div>
             <div className='centerArea'>
               <div className='timeContainer'>
                 <TournamentTimerView
-                  secondsRemaining = { this.props.tournament.secondsRemaining }
-                  showHours = { this.props.tournament.tournamentInfo.levelsAndBreaks[ this.props.tournament.currentLevelIndex ].levelTime >= 60 } />
+                  secondsRemaining = { secondsRemaining }
+                  showHours = { levelsAndBreaks[ currentLevelIndex ].levelTime >= 60 } />
               </div>
               <div className='blindsContainer'>
                 <TournamentBlindsView
-                  levels = { this.props.tournament.tournamentInfo.levelsAndBreaks }
-                  levelIndex = { this.props.tournament.currentLevelIndex } />
+                  levels = { levelsAndBreaks }
+                  levelIndex = { currentLevelIndex } />
               </div>
               <div className='nextLevelContainer'>
                 <TournamentNextLevelView
-                  levels = { this.props.tournament.tournamentInfo.levelsAndBreaks }
-                  levelIndex = { this.props.tournament.currentLevelIndex } />
+                  levels = { levelsAndBreaks }
+                  levelIndex = { currentLevelIndex } />
               </div>
             </div>
             <div className='rightColumn'>
                <TournamentBlindScheduleView
-                  levels = { this.props.tournament.tournamentInfo.levelsAndBreaks }
-                  levelIndex = { this.props.tournament.currentLevelIndex } />
+                  levels = { levelsAndBreaks }
+                  levelIndex = { currentLevelIndex } />
             </div>
             <div className='footer'>
                <TournamentPayoutsView
-                  pot = { calculatePot( this.props.tournament.tournamentInfo.buyIn,
-                                        this.props.tournament.numberOfEntrants,
-                                        this.props.tournament.numberOfRebuys ) }
-                  payoutPercentages = { this.props.tournament.payouts } />
+                  pot = { calculatePot( buyIn, numberOfEntrants, numberOfRebuys ) }
+                  payoutPercentages = { payouts } />
             </div>
           </div>
         );
