@@ -66,6 +66,11 @@ export default class Tournament {
                         console.log( 'invalid state transition:  ', stateTransition );
                 }
             }
+            if ( this.activeTournament.currentLevelIndex !== tournamentUpdate.currentLevelIndex ) {
+                this.activeTournament.currentLevelIndex = tournamentUpdate.currentLevelIndex;
+                this.activeTournament.secondsRemaining = this.activeTournament.levelsAndBreaks[ this.activeTournament.currentLevelIndex ].levelTime * 60;
+                tournamentUpdate.secondsRemaining = this.activeTournament.secondsRemaining;
+            }
         } else if ( tournamentUpdate.hasOwnProperty( 'state' ) ) {
             // new tournament
             tournamentUpdate.secondsRemaining = tournamentUpdate.levelsAndBreaks[ 0 ].levelTime * 60;
