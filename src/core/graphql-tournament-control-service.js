@@ -3,6 +3,7 @@ import AWSAppSyncClient, { AUTH_TYPE } from 'aws-appsync';
 import awsconfig from '../aws-exports';
 import { TournamentControlService } from './tournament-control-service';
 import { getTournament, getActiveTournament } from '../graphql/queries';
+import { updateActiveTournament } from '../graphql/mutations';
 import { onUpdateActiveTournament } from '../graphql/subscriptions';
 
 export default class GraphQLTournamentControlService extends TournamentControlService {
@@ -27,6 +28,7 @@ export default class GraphQLTournamentControlService extends TournamentControlSe
                 id: process.env.REACT_APP_TOURNAMENT_ID
             }
         } ).then( ( { data: { getActiveTournament: {
+            id,
             tournamentId,
             currentLevelIndex,
             numberOfEntrants,
@@ -40,6 +42,7 @@ export default class GraphQLTournamentControlService extends TournamentControlSe
                 numberOfRebuys: numberOfRebuys,
                 state: state
             };
+            this.activeTournamentId = id;
             this.activeTournament = { ...this.activeTournament, ...update };
             this.client.query( {
                 query: gql( getTournament ),
@@ -90,4 +93,18 @@ export default class GraphQLTournamentControlService extends TournamentControlSe
             }
         } );
 	}
+
+    updateTournament( tournamentUpdate ) {
+        var variables = { };
+        variables.input = { ...tournamentUpdate };
+        variables.input.id = this.activeTournamentId;
+        this.client.mutate( {
+            mutation: gql( updateActiveTournament ),
+            variables: variables
+        } )
+            .then( result => {
+                console.log( 'results of mutation: ', result );
+            })
+            .catch( console.error );
+    }
 }

@@ -33,6 +33,7 @@ export default class Tournament {
                 this.activeTournament.currentLevelIndex++;
                 this.activeTournament.secondsRemaining = this.activeTournament.levelsAndBreaks[ this.activeTournament.currentLevelIndex ].levelTime * 60;
                 update.currentLevelIndex = this.activeTournament.currentLevelIndex;
+                this.tournamentControlService.updateTournament( { currentLevelIndex: update.currentLevelIndex } );
             } else {
                 this.stopTimer();
             }
