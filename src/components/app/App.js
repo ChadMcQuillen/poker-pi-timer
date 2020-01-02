@@ -8,42 +8,39 @@ import TournamentBoardView from '../tournament-board';
 class App extends React.Component {
     constructor( props ) {
         super( props );
+        this.state = { };
+    }
 
-        this.loading = true;
-
+    componentDidMount() {
         this.tournament = new Tournament( new TimerTickService(), new GraphQLTournamentService() );
         this.tournament.tournament.subscribe(
             value => {
-                if ( value.hasOwnProperty( 'tournamentInfo' ) ) {
-                    this.loading = false;
-                    this.setState( { tournament: value } );
-                }
+                var newState = { ...this.state, ...value };
+                this.setState( newState );
             }
         )
     }
 
     render() {
-        if ( this.loading ) {
+        if ( this.state.description == null ) {
             return (
               <div>Loading...</div>
             )
         } else {
             const {
-                tournamentInfo: {
-                    title,
-                    description,
-                    buyIn,
-                    rebuyAmount,
-                    rebuyThroughLevel,
-                    levelsAndBreaks
-                },
+                title,
+                description,
+                buyIn,
+                rebuyAmount,
+                rebuyThroughLevel,
+                levelsAndBreaks,
                 currentLevelIndex,
                 numberOfEntrants,
                 numberOfPlayersRemaining,
                 numberOfRebuys,
                 payouts,
                 secondsRemaining
-            } = this.state.tournament;
+            } = this.state;
             return (
               <TournamentBoardView
                 title = { title }

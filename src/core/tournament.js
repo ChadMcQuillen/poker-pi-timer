@@ -4,7 +4,6 @@ export default class Tournament {
     constructor( timerTickService, tournamentControlService ) {
         this.timerTickService = timerTickService;
         this.tournamentControlService = tournamentControlService;
-        this.secondsRemaining = 0;
         this.tournament = new BehaviorSubject( { } );
         this.tournamentControlService.tournament.subscribe(
             value => {
@@ -27,24 +26,26 @@ export default class Tournament {
     }
 
     timerTick (t) {
-        var tournamentUpdate = this.tournament.value;
-        this.secondsRemaining--;
-        if ( this.secondsRemaining === 0 ) {
-            if ( tournamentUpdate.currentLevelIndex < tournamentUpdate.tournamentInfo.levelsAndBreaks.length - 1 ) {
-                tournamentUpdate.currentLevelIndex++;
-                this.secondsRemaining = tournamentUpdate.tournamentInfo.levelsAndBreaks[ tournamentUpdate.currentLevelIndex ].levelTime * 60;
+        var update = { };
+        this.activeTournament.secondsRemaining--;
+        if ( this.activeTournament.secondsRemaining === 0 ) {
+            if ( this.activeTournament.currentLevelIndex < this.activeTournament.levelsAndBreaks.length - 1 ) {
+                this.activeTournament.currentLevelIndex++;
+                this.activeTournament.secondsRemaining = this.activeTournament.levelsAndBreaks[ this.activeTournament.currentLevelIndex ].levelTime * 60;
+                update.currentLevelIndex = this.activeTournament.currentLevelIndex;
             } else {
                 this.stopTimer();
             }
         }
-        tournamentUpdate.secondsRemaining = this.secondsRemaining;
-        this.tournament.next( tournamentUpdate );
+        update.secondsRemaining = this.activeTournament.secondsRemaining;
+        this.tournament.next( update );
     }
 
     processTournamentUpdate( tournamentUpdate ) {
-        if ( this.tournament.value.hasOwnProperty( 'state' ) ) {
-            if ( this.tournament.value.state !== tournamentUpdate.state ) {
-                var stateTransition = this.tournament.value.state + '-to-' + tournamentUpdate.state;
+        if ( this.activeTournament != null ) {
+            if ( this.activeTournament.state !== tournamentUpdate.state ) {
+                var stateTransition = this.activeTournament.state + '-to-' + tournamentUpdate.state;
+                this.activeTournament.state = tournamentUpdate.state;
                 switch ( stateTransition ) {
                     case 'pending-to-running':
                         this.startTimer();
@@ -66,10 +67,10 @@ export default class Tournament {
             }
         } else if ( tournamentUpdate.hasOwnProperty( 'state' ) ) {
             // new tournament
-            this.secondsRemaining = tournamentUpdate.tournamentInfo.levelsAndBreaks[ 0 ].levelTime * 60;
+            tournamentUpdate.secondsRemaining = tournamentUpdate.levelsAndBreaks[ 0 ].levelTime * 60;
+            tournamentUpdate.payouts = [ 1.0 ];
+            this.activeTournament = tournamentUpdate;
         }
-        tournamentUpdate.payouts = [ 1.0 ];
-        tournamentUpdate.secondsRemaining = this.secondsRemaining;
         this.tournament.next( tournamentUpdate );
     }
 }

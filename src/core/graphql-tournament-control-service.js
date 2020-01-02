@@ -9,6 +9,9 @@ export default class GraphQLTournamentControlService extends TournamentControlSe
 
 	constructor() {
 	    super();
+
+	    this.activeTournament = { };
+
         this.client = new AWSAppSyncClient( {
             url: awsconfig.aws_appsync_graphqlEndpoint,
             region: awsconfig.aws_appsync_region,
@@ -23,15 +26,42 @@ export default class GraphQLTournamentControlService extends TournamentControlSe
             variables: {
                 id: process.env.REACT_APP_TOURNAMENT_ID
             }
-        } ).then( ( { data: { getActiveTournament } } ) => {
-            this.activeTournament = getActiveTournament;
+        } ).then( ( { data: { getActiveTournament: {
+            tournamentId,
+            currentLevelIndex,
+            numberOfEntrants,
+            numberOfPlayersRemaining,
+            numberOfRebuys,
+            state } } } ) => {
+            var update = {
+                currentLevelIndex: currentLevelIndex,
+                numberOfEntrants: numberOfEntrants,
+                numberOfPlayersRemaining: numberOfPlayersRemaining,
+                numberOfRebuys: numberOfRebuys,
+                state: state
+            };
+            this.activeTournament = { ...this.activeTournament, ...update };
             this.client.query( {
                 query: gql( getTournament ),
                 variables: {
-                    id: this.activeTournament.tournamentId
+                    id: tournamentId
                 }
-            } ).then( ( { data: { getTournament } } ) => {
-                this.activeTournament.tournamentInfo = getTournament;
+            } ).then( ( { data: { getTournament: {
+                title,
+                description,
+                buyIn,
+                rebuyAmount,
+                rebuyThroughLevel,
+                levelsAndBreaks } } } ) => {
+                update = {
+                    title: title,
+                    description: description,
+                    buyIn: buyIn,
+                    rebuyAmount: rebuyAmount,
+                    rebuyThroughlevel: rebuyThroughLevel,
+                    levelsAndBreaks: levelsAndBreaks
+                };
+                this.activeTournament = { ...this.activeTournament, ...update }
                 this.tournament.next( this.activeTournament );
             } );
         } );
@@ -41,11 +71,23 @@ export default class GraphQLTournamentControlService extends TournamentControlSe
             variables: {
                 id: process.env.REACT_APP_TOURNAMENT_ID
             } } )
-        .subscribe({
-            next: ( tournamentInfo ) => {
-                tournamentInfo.data.onUpdateActiveTournament.tournamentInfo = this.activeTournament.tournamentInfo;
-                this.tournament.next( tournamentInfo.data.onUpdateActiveTournament );
+        .subscribe( {
+            next: ( { data: { onUpdateActiveTournament: {
+                currentLevelIndex,
+                numberOfEntrants,
+                numberOfPlayersRemaining,
+                numberOfRebuys,
+                state } } } ) => {
+                var update = {
+                    currentLevelIndex: currentLevelIndex,
+                    numberOfEntrants: numberOfEntrants,
+                    numberOfPlayersRemaining: numberOfPlayersRemaining,
+                    numberOfRebuys: numberOfRebuys,
+                    state: state
+                };
+                this.activeTournament = { ...this.activeTournament, ...update };
+                this.tournament.next( update );
             }
-        });
+        } );
 	}
 }
