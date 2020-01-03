@@ -74,7 +74,6 @@ export default class Tournament {
         } else if ( tournamentUpdate.hasOwnProperty( 'state' ) ) {
             // new tournament
             tournamentUpdate.secondsRemaining = tournamentUpdate.levelsAndBreaks[ 0 ].levelTime * 60;
-            tournamentUpdate.payouts = [ 1.0 ];
             this.activeTournament = tournamentUpdate;
         }
         this.tournament.next( tournamentUpdate );

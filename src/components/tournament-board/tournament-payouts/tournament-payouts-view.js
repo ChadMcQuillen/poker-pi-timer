@@ -7,7 +7,7 @@ function mapPayouts( pot, payoutPercentages ) {
     var sum = 0;
 
     var payouts = payoutPercentages.map( function( payoutPercentage, i ) {
-        var amount = Math.floor( pot * payoutPercentage );
+        var amount = Math.floor( 1.0 * pot * payoutPercentage / 100 );
         sum += amount;
         return {
             amount: amount,
