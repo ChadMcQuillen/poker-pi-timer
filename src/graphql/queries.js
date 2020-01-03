@@ -110,6 +110,15 @@ export const getActiveTournament = `query GetActiveTournament($id: ID!) {
     numberOfPlayersRemaining
     numberOfRebuys
     currentLevelIndex
+    payout1
+    payout2
+    payout3
+    payout4
+    payout5
+    payout6
+    payout7
+    payout8
+    payout9
   }
 }
 `;
@@ -127,6 +136,15 @@ export const listActiveTournaments = `query ListActiveTournaments(
       numberOfPlayersRemaining
       numberOfRebuys
       currentLevelIndex
+      payout1
+      payout2
+      payout3
+      payout4
+      payout5
+      payout6
+      payout7
+      payout8
+      payout9
     }
     nextToken
   }

@@ -202,6 +202,15 @@ export const onCreateActiveTournament = `subscription OnCreateActiveTournament(
     numberOfPlayersRemaining
     numberOfRebuys
     currentLevelIndex
+    payout1
+    payout2
+    payout3
+    payout4
+    payout5
+    payout6
+    payout7
+    payout8
+    payout9
   }
 }
 `;
@@ -214,6 +223,15 @@ export const onUpdateActiveTournament = `subscription OnUpdateActiveTournament($
     numberOfPlayersRemaining
     numberOfRebuys
     currentLevelIndex
+    payout1
+    payout2
+    payout3
+    payout4
+    payout5
+    payout6
+    payout7
+    payout8
+    payout9
   }
 }
 `;
@@ -238,6 +256,15 @@ export const onDeleteActiveTournament = `subscription OnDeleteActiveTournament(
     numberOfPlayersRemaining
     numberOfRebuys
     currentLevelIndex
+    payout1
+    payout2
+    payout3
+    payout4
+    payout5
+    payout6
+    payout7
+    payout8
+    payout9
   }
 }
 `;

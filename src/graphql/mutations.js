@@ -118,6 +118,15 @@ export const createActiveTournament = `mutation CreateActiveTournament($input: C
     numberOfPlayersRemaining
     numberOfRebuys
     currentLevelIndex
+    payout1
+    payout2
+    payout3
+    payout4
+    payout5
+    payout6
+    payout7
+    payout8
+    payout9
   }
 }
 `;
@@ -130,6 +139,15 @@ export const updateActiveTournament = `mutation UpdateActiveTournament($input: U
     numberOfPlayersRemaining
     numberOfRebuys
     currentLevelIndex
+    payout1
+    payout2
+    payout3
+    payout4
+    payout5
+    payout6
+    payout7
+    payout8
+    payout9
   }
 }
 `;
@@ -142,6 +160,15 @@ export const deleteActiveTournament = `mutation DeleteActiveTournament($input: D
     numberOfPlayersRemaining
     numberOfRebuys
     currentLevelIndex
+    payout1
+    payout2
+    payout3
+    payout4
+    payout5
+    payout6
+    payout7
+    payout8
+    payout9
   }
 }
 `;
