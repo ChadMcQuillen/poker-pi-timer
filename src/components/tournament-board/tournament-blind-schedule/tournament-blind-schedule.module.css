@@ -5,12 +5,24 @@
   margin-right:15%;
 }
 
-.text {
+.small {
+  font-size:1.6em;
+}
+
+.medium {
+  font-size:2.0em;
+}
+
+.large {
   font-size:2.4em;
 }
 
-.selectedText {
-  font-size:2.4em;
+.selected {
   font-weight:bold;
   color:yellow;
+}
+
+.notSelected {
+  font-weight:normal;
+  color:white;
 }

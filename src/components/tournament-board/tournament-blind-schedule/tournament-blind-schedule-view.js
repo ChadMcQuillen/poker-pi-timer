@@ -1,32 +1,48 @@
 import React from 'react';
 import styles from './tournament-blind-schedule.module.css';
 
+function getFontSizeForBlinds( level ) {
+    var numberOfDigits = level.smallBlind.toString().length +
+                         level.bigBlind.toString().length;
+    if (level.ante > 0) {
+        numberOfDigits += level.ante.toString().length;
+    }
+    if (numberOfDigits < 8) {
+        return styles.large;
+    } else if (numberOfDigits < 12) {
+        return styles.medium;
+    } else {
+        return styles.small;
+    }
+}
+
 function mapBlindSchedule( levels, currentLevelIndex, startIndex, endIndex ) {
     return levels.slice(startIndex, endIndex + 1).map( function( level, i ) {
-        var className = `${ i === ( currentLevelIndex - startIndex ) ? styles.selectedText : styles.text }`;
+        var selection = (i === ( currentLevelIndex - startIndex )) ? styles.selected : styles.notSelected;
+        var fontSize = getFontSizeForBlinds( level );
         if ( level.levelType === 'Level' ) {
             if ( level.ante === 0 ) {
                 var blinds = '$' + level.smallBlind + ' / $' + level.bigBlind;
                 return(
                     <React.Fragment key = { i }>
-                      <tr><td className = { className }>Level { level.levelIndex }</td></tr>
-                      <tr><td className = { className }>{ blinds }</td></tr>
+                      <tr><td className = { `${ styles.large } ${ selection }` }>Level { level.levelIndex }</td></tr>
+                      <tr><td className = { `${ fontSize } ${ selection }` }>{ blinds }</td></tr>
                     </React.Fragment>
                 );
             } else {
                 var blindsAndAnte = '$' + level.smallBlind + ' / $' + level.bigBlind + ' / $' + level.ante;
                 return(
                     <React.Fragment key = { i }>
-                      <tr><td className = { className }>Level { level.levelIndex }</td></tr>
-                      <tr><td className = { className }>{ blindsAndAnte }</td></tr>
+                      <tr><td className = { `${ styles.large } ${ selection }` }>Level { level.levelIndex }</td></tr>
+                      <tr><td className = { `${ fontSize } ${ selection }` }>{ blindsAndAnte }</td></tr>
                     </React.Fragment>
                 );
             }
         } else {
             return(
                 <React.Fragment key = { i }>
-                  <tr><td className = { className }>Break { level.levelIndex }</td></tr>
-                  <tr><td className = { className }>{ level.levelTime } minutes</td></tr>
+                  <tr><td className = { `${ styles.large } ${ selection }` }>Break { level.levelIndex }</td></tr>
+                  <tr><td className = { `${ fontSize } ${ selection }` }>{ level.levelTime } minutes</td></tr>
                 </React.Fragment>
             );
         }
