@@ -1,8 +1,8 @@
 import React from 'react';
 import styles from './tournament-blinds.module.css';
 
-function getClassForBlinds( level ) {
-    var klass = styles.text;
+function getFontSizeForBlinds( level ) {
+    var klass = styles.large;
     if ( level.levelType === 'Level' ) {
         var numberOfDigits = level.smallBlind.toString().length +
                              level.bigBlind.toString().length;
@@ -10,7 +10,7 @@ function getClassForBlinds( level ) {
             numberOfDigits += level.ante.toString().length;
         }
         if ( numberOfDigits > 12 ) {
-            klass = styles.textSmall;
+            klass = styles.small;
         }
     }
     return klass;
@@ -34,7 +34,7 @@ const TournamentBlindsView = ( { levels, levelIndex } ) => {
             info = '$' + level.smallBlind + ' / $' + level.bigBlind + ' / $' + level.ante;
         }
     }
-    var klass = `${ getClassForBlinds( level ) }`;
+    var klass = `${ styles.text } ${ getFontSizeForBlinds( level ) }`;
     return (
       <div>
         <div className = { styles.title }>
