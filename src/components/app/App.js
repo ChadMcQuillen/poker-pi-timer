@@ -53,7 +53,7 @@ class App extends React.Component {
                 numberOfRebuys = { numberOfRebuys }
                 currentLevelIndex = { currentLevelIndex }
                 levelsAndBreaks = { levelsAndBreaks }
-                payouts = { payouts}
+                payouts = { payouts }
                 secondsRemaining = { secondsRemaining } />
             );
         }
