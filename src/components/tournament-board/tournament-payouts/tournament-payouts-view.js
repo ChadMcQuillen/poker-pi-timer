@@ -44,16 +44,10 @@ function mapPayouts( pot, payoutPercentages ) {
     } );
 }
 
-class TournamentPayoutsView extends React.Component {
-    render() {
-        const pot = this.props.pot;
-        const payoutPercentages = this.props.payoutPercentages;
-        return (
-          <ul className = { styles.payouts }>
-            { mapPayouts( pot, payoutPercentages ) }
-          </ul>
-        );
-    }
-}
+const TournamentPayoutsView = ( { pot, payoutPercentages } ) => (
+  <ul className = { styles.payouts }>
+    { mapPayouts( pot, payoutPercentages ) }
+  </ul>
+);
 
 export default TournamentPayoutsView;

@@ -15,18 +15,12 @@ function formatTime( value, showHours ) {
     return timerText;
 }
 
-class TournamentTimerView extends React.Component {
-    render() {
-        const secondsRemaining = this.props.secondsRemaining;
-        const showHours = this.props.showHours;
-        return (
-          <div className = { styles.text }>
-            <div className = { `${ secondsRemaining > 5 ? styles.child : styles.childRed }` }>
-              { formatTime( secondsRemaining, showHours ) }
-            </div>
-          </div>
-        );
-    }
-}
+const TournamentTimerView = ( { secondsRemaining, showHours } ) => (
+  <div className = { styles.text }>
+    <div className = { `${ secondsRemaining > 5 ? styles.child : styles.childRed }` }>
+      { formatTime( secondsRemaining, showHours ) }
+    </div>
+  </div>
+);
 
 export default TournamentTimerView;
