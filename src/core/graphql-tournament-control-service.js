@@ -46,6 +46,7 @@ export default class GraphQLTournamentControlService extends TournamentControlSe
 
         this.client.query( {
             query: gql( getActiveTournament ),
+            fetchPolicy: 'network-only',
             variables: {
                 id: process.env.REACT_APP_TOURNAMENT_ID
             }
@@ -78,6 +79,7 @@ export default class GraphQLTournamentControlService extends TournamentControlSe
             this.activeTournament = { ...this.activeTournament, ...update };
             this.client.query( {
                 query: gql( getTournament ),
+                fetchPolicy: 'network-only',
                 variables: {
                     id: tournamentId
                 }
