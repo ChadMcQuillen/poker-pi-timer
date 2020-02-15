@@ -1,9 +1,9 @@
 import React from 'react';
 import './App.css';
-import TimerTickService from '../../core/timer-tick-service';
-import GraphQLTournamentService from '../../core/graphql-tournament-control-service';
-import Tournament from '../../core/tournament';
-import TournamentBoardView from '../tournament-board';
+import TimerTickService from 'core/timer-tick-service';
+import GraphQLTournamentService from 'core/graphql-tournament-control-service';
+import Tournament from 'core/tournament';
+import TournamentBoardView from 'components/tournament-board';
 
 class App extends React.Component {
     constructor( props ) {
