@@ -36,13 +36,13 @@ export const TournamentBlindsView = ( { levels, levelIndex } ) => {
     }
     var klass = `${ styles.text } ${ getFontSizeForBlinds( level ) }`;
     return (
-      <div>
+      <React.Fragment>
         <div className = { styles.title }>
           <div className = { styles.child }>{ title }</div>
         </div>
         <div className = { klass }>
           <div className = { styles.child }>{ info }</div>
         </div>
-      </div>
+      </React.Fragment>
     );
 };
