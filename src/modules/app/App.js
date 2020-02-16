@@ -5,7 +5,7 @@ import GraphQLTournamentService from 'core/graphql-tournament-control-service';
 import Tournament from 'core/tournament';
 import TournamentBoardView from 'components/tournament-board';
 
-class App extends React.Component {
+export class App extends React.Component {
     constructor( props ) {
         super( props );
         this.state = { };
@@ -59,5 +59,3 @@ class App extends React.Component {
         }
     }
 }
-
-export default App;
