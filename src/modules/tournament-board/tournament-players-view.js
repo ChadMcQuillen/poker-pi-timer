@@ -1,7 +1,7 @@
 import React from 'react';
-import styles from '../tournament.module.css';
+import styles from './css/tournament.module.css';
 
-const TournamentPlayersView = ( { numberOfPlayersRemaining } ) => (
+export const TournamentPlayersView = ( { numberOfPlayersRemaining } ) => (
   <div>
     <div className = { styles.title }>
       <div className = { styles.child }>Players In</div>
@@ -11,5 +11,3 @@ const TournamentPlayersView = ( { numberOfPlayersRemaining } ) => (
     </div>
   </div>
 );
-
-export default TournamentPlayersView;

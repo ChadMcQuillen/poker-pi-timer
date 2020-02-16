@@ -1,7 +1,7 @@
 import React from 'react';
 import Sound from 'react-sound';
-import styles from './tournament-timer.module.css';
-import soundfile from '../../../assets/audio/beep.wav';
+import styles from './css/tournament-timer.module.css';
+import soundfile from 'assets/audio/beep.wav';
 
 function formatTime( value, showHours ) {
     var seconds = value % 60;
@@ -17,7 +17,7 @@ function formatTime( value, showHours ) {
     return timerText;
 }
 
-const TournamentTimerView = ( { secondsRemaining, showHours } ) => {
+export const TournamentTimerView = ( { secondsRemaining, showHours } ) => {
     var sound;
     if ( secondsRemaining <= 5 ) {
         sound = <Sound url = { soundfile } playStatus = { Sound.status.PLAYING } />
@@ -31,4 +31,3 @@ const TournamentTimerView = ( { secondsRemaining, showHours } ) => {
       </div>
     );
 }
-export default TournamentTimerView;

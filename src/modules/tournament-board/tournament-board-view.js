@@ -1,22 +1,22 @@
 import React from 'react';
-import TournamentTitleView from './tournament-title';
-import TournamentLevelView from './tournament-level';
-import TournamentEntriesView from './tournament-entries';
-import TournamentPlayersView from './tournament-players';
-import TournamentRebuysView from './tournament-rebuys';
-import TournamentPotView from './tournament-pot';
-import TournamentTimerView from './tournament-timer';
-import TournamentBlindsView from './tournament-blinds';
-import TournamentNextLevelView from './tournament-next-level';
-import TournamentBlindScheduleView from './tournament-blind-schedule';
-import TournamentPayoutsView from './tournament-payouts';
-import './tournament-board-view.css';
+import { TournamentTitleView } from './tournament-title-view';
+import { TournamentLevelView } from './tournament-level-view';
+import { TournamentEntriesView } from './tournament-entries-view';
+import { TournamentPlayersView } from './tournament-players-view';
+import { TournamentRebuysView } from './tournament-rebuys-view';
+import { TournamentPotView } from './tournament-pot-view';
+import { TournamentTimerView } from './tournament-timer-view';
+import { TournamentBlindsView } from './tournament-blinds-view';
+import { TournamentNextLevelView } from './tournament-next-level-view';
+import { TournamentBlindScheduleView } from './tournament-blind-schedule-view';
+import { TournamentPayoutsView } from './tournament-payouts-view';
+import './css/tournament-board-view.css';
 
 function calculatePot( buyinAmount, numberOfEntries, numberOfRebuys ) {
    return buyinAmount * ( numberOfEntries + numberOfRebuys );
 }
 
-const TournamentBoardView = ( {
+export const TournamentBoardView = ( {
     title,
     description,
     buyIn,
@@ -87,5 +87,3 @@ const TournamentBoardView = ( {
     </div>
   </div>
 );
-
-export default TournamentBoardView;

@@ -1,7 +1,7 @@
 import React from 'react';
-import styles from '../tournament.module.css';
+import styles from './css/tournament.module.css';
 
-const TournamentRebuysView = ( { numberOfRebuys } ) => (
+export const TournamentRebuysView = ( { numberOfRebuys } ) => (
   <div>
     <div className = { styles.title }>
       <div className = { styles.child }>Rebuys</div>
@@ -11,5 +11,3 @@ const TournamentRebuysView = ( { numberOfRebuys } ) => (
     </div>
   </div>
 );
-
-export default TournamentRebuysView;

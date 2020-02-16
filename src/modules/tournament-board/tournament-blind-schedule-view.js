@@ -1,5 +1,5 @@
 import React from 'react';
-import styles from './tournament-blind-schedule.module.css';
+import styles from './css/tournament-blind-schedule.module.css';
 
 function getFontSizeForBlinds( level ) {
     var numberOfDigits = level.smallBlind.toString().length +
@@ -49,7 +49,7 @@ function mapBlindSchedule( levels, currentLevelIndex, startIndex, endIndex ) {
     } );
 }
 
-const TournamentBlindScheduleView = ( { levels, levelIndex } ) => {
+export const TournamentBlindScheduleView = ( { levels, levelIndex } ) => {
     var startBlindIndex = Math.max( levelIndex - 2, 0 );
     var endBlindIndex = Math.min( levelIndex + 2, levels.length - 1 );
     var excess;
@@ -69,5 +69,3 @@ const TournamentBlindScheduleView = ( { levels, levelIndex } ) => {
       </table>
     );
 };
-
-export default TournamentBlindScheduleView;

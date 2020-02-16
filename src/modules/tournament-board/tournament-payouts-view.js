@@ -1,5 +1,5 @@
 import React from 'react';
-import styles from './tournament-payouts.module.css';
+import styles from './css/tournament-payouts.module.css';
 
 const places = [ '1st', '2nd', '3rd', '4th', '5th', '6th', '7th', '8th', '9th' ];
 
@@ -44,10 +44,8 @@ function mapPayouts( pot, payoutPercentages ) {
     } );
 }
 
-const TournamentPayoutsView = ( { pot, payoutPercentages } ) => (
+export const TournamentPayoutsView = ( { pot, payoutPercentages } ) => (
   <ul className = { styles.payouts }>
     { mapPayouts( pot, payoutPercentages ) }
   </ul>
 );
-
-export default TournamentPayoutsView;

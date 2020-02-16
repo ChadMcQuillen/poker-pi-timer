@@ -1,7 +1,7 @@
 import React from 'react';
-import styles from './tournament-next-level.module.css';
+import styles from './css/tournament-next-level.module.css';
 
-const TournamentNextLevelView = ( { levels, levelIndex } ) => {
+export const TournamentNextLevelView = ( { levels, levelIndex } ) => {
     var info = '';
     if ( levelIndex < levels.length - 1 ) {
         var level = levels[ levelIndex + 1 ];
@@ -21,5 +21,3 @@ const TournamentNextLevelView = ( { levels, levelIndex } ) => {
       </div>
     );
 };
-
-export default TournamentNextLevelView;

@@ -3,7 +3,7 @@ import './App.css';
 import TimerTickService from 'core/timer-tick-service';
 import GraphQLTournamentService from 'core/graphql-tournament-control-service';
 import Tournament from 'core/tournament';
-import TournamentBoardView from 'components/tournament-board';
+import { TournamentBoardView } from 'modules/tournament-board';
 
 export class App extends React.Component {
     constructor( props ) {

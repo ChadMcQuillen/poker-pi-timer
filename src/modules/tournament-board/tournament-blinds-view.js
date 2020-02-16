@@ -1,5 +1,5 @@
 import React from 'react';
-import styles from './tournament-blinds.module.css';
+import styles from './css/tournament-blinds.module.css';
 
 function getFontSizeForBlinds( level ) {
     var klass = styles.large;
@@ -16,7 +16,7 @@ function getFontSizeForBlinds( level ) {
     return klass;
 }
 
-const TournamentBlindsView = ( { levels, levelIndex } ) => {
+export const TournamentBlindsView = ( { levels, levelIndex } ) => {
     var level = levels[ levelIndex ];
     var title = '';
     if ( level.levelType === 'Break' ) {
@@ -46,5 +46,3 @@ const TournamentBlindsView = ( { levels, levelIndex } ) => {
       </div>
     );
 };
-
-export default TournamentBlindsView;

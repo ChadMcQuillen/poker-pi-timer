@@ -1,7 +1,7 @@
 import React from 'react';
-import styles from './tournament-title-view.module.css';
+import styles from './css/tournament-title-view.module.css';
 
-const TournamentTitleView = ( { title, description } ) => (
+export const TournamentTitleView = ( { title, description } ) => (
   <div>
     <div className = { styles.title }>
       <div className= { styles.child }>{ title }</div>
@@ -11,5 +11,3 @@ const TournamentTitleView = ( { title, description } ) => (
     </div>
   </div>
 );
-
-export default TournamentTitleView;

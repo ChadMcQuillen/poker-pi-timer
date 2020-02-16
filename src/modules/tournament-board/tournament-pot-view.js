@@ -1,7 +1,7 @@
 import React from 'react';
-import styles from '../tournament.module.css';
+import styles from './css/tournament.module.css';
 
-const TournamentPotView = ( { pot } ) => (
+export const TournamentPotView = ( { pot } ) => (
   <div>
     <div className = { styles.title }>
       <div className = { styles.child }>Total Pot</div>
@@ -11,5 +11,3 @@ const TournamentPotView = ( { pot } ) => (
     </div>
   </div>
 );
-
-export default TournamentPotView;
