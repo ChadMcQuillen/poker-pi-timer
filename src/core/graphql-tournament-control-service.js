@@ -68,6 +68,7 @@ export default class GraphQLTournamentControlService extends TournamentControlSe
         } ) => {
             var payouts = buildPayouts( getActiveTournament );
             var update = {
+                id: id,
                 currentLevelIndex: currentLevelIndex,
                 numberOfEntrants: numberOfEntrants,
                 numberOfPlayersRemaining: numberOfPlayersRemaining,

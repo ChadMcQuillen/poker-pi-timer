@@ -1,10 +1,11 @@
-import { BehaviorSubject } from 'rxjs';
+import { tournamentSlice } from 'state/entities/tournamentSlice';
+import store from 'state/store';
 
 export default class Tournament {
     constructor( timerTickService, tournamentControlService ) {
+        this.activeTournament = null;
         this.timerTickService = timerTickService;
         this.tournamentControlService = tournamentControlService;
-        this.tournament = new BehaviorSubject( { } );
         this.tournamentControlService.tournament.subscribe(
             value => {
                 this.processTournamentUpdate( value );
@@ -38,8 +39,9 @@ export default class Tournament {
                 this.stopTimer();
             }
         }
+        update.id = this.activeTournament.id;
         update.secondsRemaining = this.activeTournament.secondsRemaining;
-        this.tournament.next( update );
+        store.dispatch( tournamentSlice.actions.update( update ));
     }
 
     processTournamentUpdate( tournamentUpdate ) {
@@ -71,11 +73,15 @@ export default class Tournament {
                 this.activeTournament.secondsRemaining = this.activeTournament.levelsAndBreaks[ this.activeTournament.currentLevelIndex ].levelTime * 60;
                 tournamentUpdate.secondsRemaining = this.activeTournament.secondsRemaining;
             }
+            tournamentUpdate.id = this.activeTournament.id;
+            store.dispatch( tournamentSlice.actions.update( tournamentUpdate ));
+            return;
         } else if ( tournamentUpdate.hasOwnProperty( 'state' ) ) {
             // new tournament
             tournamentUpdate.secondsRemaining = tournamentUpdate.levelsAndBreaks[ 0 ].levelTime * 60;
             this.activeTournament = tournamentUpdate;
+            store.dispatch( tournamentSlice.actions.add( tournamentUpdate ));
+            return;
         }
-        this.tournament.next( tournamentUpdate );
     }
 }

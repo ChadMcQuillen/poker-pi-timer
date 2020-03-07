@@ -1,4 +1,6 @@
 import React from 'react';
+import { connect } from 'react-redux';
+
 import { TournamentTitleView } from './tournament-title-view';
 import { TournamentLevelView } from './tournament-level-view';
 import { TournamentEntriesView } from './tournament-entries-view';
@@ -11,79 +13,96 @@ import { TournamentNextLevelView } from './tournament-next-level-view';
 import { TournamentBlindScheduleView } from './tournament-blind-schedule-view';
 import { TournamentPayoutsView } from './tournament-payouts-view';
 import './css/tournament-board-view.css';
+import { getTournament } from 'state/entities/tournamentSlice';
 
 function calculatePot( buyinAmount, numberOfEntries, numberOfRebuys ) {
    return buyinAmount * ( numberOfEntries + numberOfRebuys );
 }
 
-export const TournamentBoardView = ( {
+const TournamentBoardView = ( props ) => {
+
+  const {
+    tournament
+  } = props;
+
+  const {
     title,
     description,
     buyIn,
-    rebuyAmount,
-    rebuyThroughLevel,
     levelsAndBreaks,
     currentLevelIndex,
     numberOfEntrants,
     numberOfPlayersRemaining,
     numberOfRebuys,
     payouts,
-    secondsRemaining } ) => (
-  <div className='tournamentBoard'>
-    <div className='header'>
-      <TournamentTitleView
-        title = { title }
-        description = { description } />
-    </div>
-    <div className='leftColumn'>
-      <div className='levelContainer'>
-        <TournamentLevelView
-          levelTitle = { levelsAndBreaks[ currentLevelIndex ].levelType }
-          level = { levelsAndBreaks[ currentLevelIndex ].levelIndex } />
+    secondsRemaining
+  } = tournament;
+
+  return(
+    <div className='tournamentBoard'>
+      <div className='header'>
+        <TournamentTitleView
+          title = { title }
+          description = { description } />
       </div>
-      <div className='entriesContainer'>
-        <TournamentEntriesView
-          numberOfEntries = { numberOfEntrants } />
+      <div className='leftColumn'>
+        <div className='levelContainer'>
+          <TournamentLevelView
+            levelTitle = { levelsAndBreaks[ currentLevelIndex ].levelType }
+            level = { levelsAndBreaks[ currentLevelIndex ].levelIndex } />
+        </div>
+        <div className='entriesContainer'>
+          <TournamentEntriesView
+            numberOfEntries = { numberOfEntrants } />
+        </div>
+        <div className='playersContainer'>
+          <TournamentPlayersView
+            numberOfPlayersRemaining = { numberOfPlayersRemaining } />
+        </div>
+        <div className='rebuysContainer'>
+          <TournamentRebuysView
+            numberOfRebuys = { numberOfRebuys } />
+        </div>
+        <div className='potContainer'>
+          <TournamentPotView
+            pot = { calculatePot( buyIn, numberOfEntrants, numberOfRebuys ) } />
+        </div>
       </div>
-      <div className='playersContainer'>
-        <TournamentPlayersView
-          numberOfPlayersRemaining = { numberOfPlayersRemaining } />
+      <div className='centerArea'>
+        <div className='timeContainer'>
+          <TournamentTimerView
+            secondsRemaining = { secondsRemaining }
+            showHours = { levelsAndBreaks[ currentLevelIndex ].levelTime >= 60 } />
+        </div>
+        <div className='blindsContainer'>
+          <TournamentBlindsView
+            levels = { levelsAndBreaks }
+            levelIndex = { currentLevelIndex } />
+        </div>
+        <div className='nextLevelContainer'>
+          <TournamentNextLevelView
+            levels = { levelsAndBreaks }
+            levelIndex = { currentLevelIndex } />
+        </div>
       </div>
-      <div className='rebuysContainer'>
-        <TournamentRebuysView
-          numberOfRebuys = { numberOfRebuys } />
-      </div>
-      <div className='potContainer'>
-        <TournamentPotView
-          pot = { calculatePot( buyIn, numberOfEntrants, numberOfRebuys ) } />
-      </div>
-    </div>
-    <div className='centerArea'>
-      <div className='timeContainer'>
-        <TournamentTimerView
-          secondsRemaining = { secondsRemaining }
-          showHours = { levelsAndBreaks[ currentLevelIndex ].levelTime >= 60 } />
-      </div>
-      <div className='blindsContainer'>
-        <TournamentBlindsView
+      <div className='rightColumn'>
+        <TournamentBlindScheduleView
           levels = { levelsAndBreaks }
           levelIndex = { currentLevelIndex } />
       </div>
-      <div className='nextLevelContainer'>
-        <TournamentNextLevelView
-          levels = { levelsAndBreaks }
-          levelIndex = { currentLevelIndex } />
-      </div>
-    </div>
-    <div className='rightColumn'>
-       <TournamentBlindScheduleView
-          levels = { levelsAndBreaks }
-          levelIndex = { currentLevelIndex } />
-    </div>
-    <div className='footer'>
-       <TournamentPayoutsView
+      <div className='footer'>
+        <TournamentPayoutsView
           pot = { calculatePot( buyIn, numberOfEntrants, numberOfRebuys ) }
           payoutPercentages = { payouts } />
+      </div>
     </div>
-  </div>
-);
+  );
+}
+
+const mapStateToProps = state => ({
+  tournament: getTournament( state )
+});
+
+export default connect(
+  mapStateToProps
+)( TournamentBoardView );
