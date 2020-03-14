@@ -14,7 +14,7 @@ const SplashScreen = ( props ) => {
 
   useEffect( () => {
     const checkForActiveTournament = () => {
-      if ( Object.keys(tournament).length > 0 ) {
+      if ( tournament && tournament.id ) {
         history.push( '/tournaments/active/' + tournament.id );
       }
     }
