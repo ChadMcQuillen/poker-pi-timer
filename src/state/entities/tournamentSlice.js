@@ -8,9 +8,6 @@ export const tournamentSlice = createSlice({
     }
   },
   reducers: {
-    add( state, action ) {
-      state.tournament = { ...action.payload };
-    },
     update( state, action ) {
       state.tournament = { ...state.tournament, ...action.payload };
     }
