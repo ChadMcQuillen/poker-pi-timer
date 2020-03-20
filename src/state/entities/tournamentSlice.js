@@ -3,7 +3,9 @@ import { createSlice } from '@reduxjs/toolkit';
 export const tournamentSlice = createSlice({
   name: 'tournament',
   initialState: {
-    tournament: {}
+    tournament: {
+      state: 'loading'
+    }
   },
   reducers: {
     add( state, action ) {

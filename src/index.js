@@ -7,6 +7,8 @@ import { App } from 'modules/app';
 import * as serviceWorker from 'serviceWorker';
 import store from 'state/store';
 
+store.dispatch( { type: 'FETCH_TOURNAMENT' } );
+
 ReactDOM.render(
   <Provider store = { store }>
     <App />
