@@ -48,9 +48,11 @@ function fetchActiveTournamentInfo( tournament ) {
         id: tournament.tournamentId
       }
     }).then( result => {
+      const { id, ...tournamentInfo } = result.data.getTournament;
       tournament = {
         ...tournament,
-        ...result.data.getTournament
+        tournamentId: id,
+        ...tournamentInfo
       };
       resolve( tournament );
     });
