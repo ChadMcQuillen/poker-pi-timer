@@ -39,67 +39,66 @@ function buildPayouts( {
     return payouts;
 }
 
-function* fetchTournament() {
-  const result = yield client.query( {
-    query: gql( getActiveTournament ),
+function fetchActiveTournamentInfo( tournament ) {
+  return new Promise( ( resolve, reject ) => {
+    client.query({
+      query: gql( getTournament ),
+      fetchPolicy: 'network-only',
+      variables: {
+        id: tournament.tournamentId
+      }
+    }).then( result => {
+      tournament = {
+        ...tournament,
+        ...result.data.getTournament
+      };
+      resolve( tournament );
+    });
+  });
+}
+
+function fetchActiveTournament() {
+  return new Promise( ( resolve, reject ) => {
+    client.query({
+      query: gql( getActiveTournament ),
       fetchPolicy: 'network-only',
       variables: {
         id: process.env.REACT_APP_TOURNAMENT_ID
       }
-    }).then(({
-      data: {
-        getActiveTournament: {
-          id,
-          tournamentId,
-          currentLevelIndex,
-          numberOfEntrants,
-          numberOfPlayersRemaining,
-          numberOfRebuys,
-          state
-        }
-      },
-      data: {
-        getActiveTournament
-      }
-    }) => {
-      var payouts = buildPayouts( getActiveTournament );
-      var update = {
-        id: id,
-        currentLevelIndex: currentLevelIndex,
-        numberOfEntrants: numberOfEntrants,
-        numberOfPlayersRemaining: numberOfPlayersRemaining,
-        numberOfRebuys: numberOfRebuys,
-        payouts: payouts,
-        state: state
-      };
-      return client.query({
-        query: gql( getTournament ),
-          fetchPolicy: 'network-only',
-          variables: {
-            id: tournamentId
+    }).then( result => {
+      const {
+        data: {
+          getActiveTournament: {
+            id,
+            tournamentId,
+            currentLevelIndex,
+            numberOfEntrants,
+            numberOfPlayersRemaining,
+            numberOfRebuys,
+            state,
+            ...payouts
           }
-        }).then(({
-          data: {
-            getTournament: {
-              title,
-              description,
-              buyIn,
-              rebuyAmount,
-              rebuyThroughLevel,
-              levelsAndBreaks }}}) => {
-          update = {
-            ...update,
-            title: title,
-            description: description,
-            buyIn: buyIn,
-            rebuyAmount: rebuyAmount,
-            rebuyThroughlevel: rebuyThroughLevel,
-            levelsAndBreaks: levelsAndBreaks
-          };
-          return update;
-        });
+        }
+      } = result;
+      let tournament = {
+            id,
+            tournamentId,
+            currentLevelIndex,
+            numberOfEntrants,
+            numberOfPlayersRemaining,
+            numberOfRebuys,
+            state,
+      };
+      tournament.payouts = buildPayouts( payouts );
+      resolve( tournament );
+    });
   });
-  yield put( { type: 'UPDATE_TOURNAMENT', update: result } );
+}
+
+function* fetchTournament() {
+  const tournament = yield fetchActiveTournament()
+  .then( result => fetchActiveTournamentInfo( result ));
+  yield put( { type: 'UPDATE_TOURNAMENT', update: tournament } );
 }
 
 function subscribeToTournament() {
