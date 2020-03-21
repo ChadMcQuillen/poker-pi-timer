@@ -56,6 +56,7 @@ function* updateTournament( { update } ) {
 
 export function* tournamentSaga() {
   yield all([
+    takeEvery( 'NEW_TOURNAMENT', updateTournament ),
     takeEvery( 'UPDATE_TOURNAMENT', updateTournament ),
     takeEvery( 'TIMER_TICK', timerTick )
   ]);

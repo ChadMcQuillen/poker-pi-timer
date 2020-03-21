@@ -6,7 +6,8 @@ import AWSAppSyncClient, { AUTH_TYPE } from 'aws-appsync';
 import awsconfig from 'aws-exports';
 import { getTournament, getActiveTournament } from 'graphql/queries';
 import { updateActiveTournament } from '../graphql/mutations';
-import { onUpdateActiveTournament } from '../graphql/subscriptions';
+import { onCreateActiveTournament,
+         onUpdateActiveTournament } from '../graphql/subscriptions';
 
 const client = new AWSAppSyncClient({
   url: awsconfig.aws_appsync_graphqlEndpoint,
@@ -103,41 +104,93 @@ function* fetchTournament() {
   yield put( { type: 'UPDATE_TOURNAMENT', update: tournament } );
 }
 
-function subscribeToTournament() {
+function subscribeToTournament( id ) {
   return eventChannel( emitter => {
-    client.subscribe( { query: gql( onUpdateActiveTournament ),
+
+    const observable = client.subscribe({
+      query: gql( onUpdateActiveTournament ),
       variables: {
-        id: process.env.REACT_APP_TOURNAMENT_ID
-      }})
-      .subscribe({
-        next: ({
-          data: {
-            onUpdateActiveTournament: {
+        id: id
+      }
+    });
+
+    const processActiveTournamentUpdate = function( value ) {
+      const {
+        data: {
+          onUpdateActiveTournament: {
             currentLevelIndex,
             numberOfEntrants,
             numberOfPlayersRemaining,
             numberOfRebuys,
-            state
+            state,
+            ...payouts
           }
-        },
-        data: {
-          onUpdateActiveTournament
         }
-      }) => {
-        var payouts = buildPayouts( onUpdateActiveTournament );
-        var update = {
-          currentLevelIndex: currentLevelIndex,
-          numberOfEntrants: numberOfEntrants,
-          numberOfPlayersRemaining: numberOfPlayersRemaining,
-          numberOfRebuys: numberOfRebuys,
-          payouts: payouts,
-          state: state
-        };
-        return emitter( { type: 'UPDATE_TOURNAMENT', update: update } )
-      }
+      } = value;
+      let tournament = {
+        currentLevelIndex,
+        numberOfEntrants,
+        numberOfPlayersRemaining,
+        numberOfRebuys,
+        state,
+        payouts: buildPayouts( payouts )
+      };
+      emitter( { type: 'UPDATE_TOURNAMENT', update: tournament } );
+    };
+
+    observable.subscribe({
+      next: processActiveTournamentUpdate,
+      complete: console.log,
+      error: console.log
     });
-    return () => {
-    }
+
+    return () => {}
+  });
+}
+
+function subscribeToCreateTournament() {
+  return eventChannel( emitter => {
+
+    const observable = client.subscribe( { query: gql( onCreateActiveTournament ) } );
+
+    const processActiveTournament = function( value ) {
+      const {
+        data: {
+          onCreateActiveTournament: {
+            id,
+            tournamentId,
+            currentLevelIndex,
+            numberOfEntrants,
+            numberOfPlayersRemaining,
+            numberOfRebuys,
+            state,
+            ...payouts
+          }
+        }
+      } = value;
+      let tournament = {
+        id,
+        tournamentId,
+        currentLevelIndex,
+        numberOfEntrants,
+        numberOfPlayersRemaining,
+        numberOfRebuys,
+        state,
+        payouts: buildPayouts( payouts )
+      };
+      fetchActiveTournamentInfo( tournament )
+      .then( tournament => {
+        emitter( { type: 'NEW_TOURNAMENT', update: tournament } );
+      });
+    };
+
+    observable.subscribe({
+      next: processActiveTournament,
+      complete: console.log,
+      error: console.log
+    });
+
+    return () => {}
   });
 }
 
@@ -155,12 +208,24 @@ function dbUpdateTournament( update ) {
   .catch( console.error );
 }
 
-export function* graphQLSubscriptionSaga() {
-  const channel = yield call( subscribeToTournament );
+export function* graphQLWaitForTournamentSaga() {
+  const channel = yield call( subscribeToCreateTournament );
   while ( true ) {
     const action = yield take( channel );
     yield put( action );
   }
+}
+
+export function* subscribeToTournamentUpdates( { update: { id } } ) {
+  const channel = yield call( subscribeToTournament, id );
+  while ( true ) {
+    const action = yield take( channel );
+    yield put( action );
+  }
+}
+
+export function* graphQLSubscriptionSaga() {
+  yield takeEvery( 'NEW_TOURNAMENT', subscribeToTournamentUpdates );
 }
 
 export function* graphQLSaga() {
