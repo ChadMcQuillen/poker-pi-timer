@@ -181,20 +181,8 @@ export const onDeleteLevel = `subscription OnDeleteLevel(
   }
 }
 `;
-export const onCreateActiveTournament = `subscription OnCreateActiveTournament(
-  $id: ID
-  $tournamentId: ID
-  $state: TournamentState
-  $numberOfEntrants: Int
-  $numberOfPlayersRemaining: Int
-) {
-  onCreateActiveTournament(
-    id: $id
-    tournamentId: $tournamentId
-    state: $state
-    numberOfEntrants: $numberOfEntrants
-    numberOfPlayersRemaining: $numberOfPlayersRemaining
-  ) {
+export const onCreateActiveTournament = `subscription OnCreateActiveTournament {
+  onCreateActiveTournament {
     id
     tournamentId
     state
