@@ -47,9 +47,9 @@ function* updateTournament( { update } ) {
       default:
         console.log( 'invalid state transition:  ', stateTransition );
     }
-    if ( tournament.currentLevelIndex && tournament.currentLevelIndex !== update.currentLevelIndex ) {
-      update.secondsRemaining = tournament.levelsAndBreaks[ update.currentLevelIndex ].levelTime * 60;
-    }
+  }
+  if ( tournament.currentLevelIndex !== undefined && ( tournament.currentLevelIndex !== update.currentLevelIndex )) {
+    update.secondsRemaining = tournament.levelsAndBreaks[ update.currentLevelIndex ].levelTime * 60;
   }
   yield put( tournamentSlice.actions.update( update ) );
 }
