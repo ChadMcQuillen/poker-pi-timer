@@ -4,7 +4,8 @@ import gql from 'graphql-tag';
 import AWSAppSyncClient, { AUTH_TYPE } from 'aws-appsync';
 
 import awsconfig from 'aws-exports';
-import { getTournament, getActiveTournament } from 'graphql/queries';
+import { getTournament,
+         listActiveTournaments } from 'graphql/queries';
 import { updateActiveTournament } from '../graphql/mutations';
 import { onCreateActiveTournament,
          onUpdateActiveTournament } from '../graphql/subscriptions';
@@ -60,48 +61,66 @@ function fetchActiveTournamentInfo( tournament ) {
   });
 }
 
-function fetchActiveTournament() {
+function fetchActiveTournaments() {
   return new Promise( ( resolve, reject ) => {
     client.query({
-      query: gql( getActiveTournament ),
-      fetchPolicy: 'network-only',
-      variables: {
-        id: process.env.REACT_APP_TOURNAMENT_ID
-      }
+      query: gql( listActiveTournaments ),
+      fetchPolicy: 'network-only'
     }).then( result => {
       const {
         data: {
-          getActiveTournament: {
-            id,
-            tournamentId,
-            currentLevelIndex,
-            numberOfEntrants,
-            numberOfPlayersRemaining,
-            numberOfRebuys,
-            state,
-            ...payouts
+          listActiveTournaments: {
+            items
           }
         }
       } = result;
-      let tournament = {
-            id,
-            tournamentId,
-            currentLevelIndex,
-            numberOfEntrants,
-            numberOfPlayersRemaining,
-            numberOfRebuys,
-            state,
-      };
-      tournament.payouts = buildPayouts( payouts );
-      resolve( tournament );
+      if ( items.length > 0 ) {
+        const {
+              id,
+              tournamentId,
+              currentLevelIndex,
+              numberOfEntrants,
+              numberOfPlayersRemaining,
+              numberOfRebuys,
+              state,
+              ...payouts
+        } = items[ 0 ];
+        let tournament = {
+              id,
+              tournamentId,
+              currentLevelIndex,
+              numberOfEntrants,
+              numberOfPlayersRemaining,
+              numberOfRebuys,
+              state
+        };
+        tournament.payouts = buildPayouts( payouts );
+        resolve( tournament );
+      } else {
+        resolve( null );
+      }
     });
   });
 }
 
 function* fetchTournament() {
-  const tournament = yield fetchActiveTournament()
-  .then( result => fetchActiveTournamentInfo( result ));
-  yield put( { type: 'UPDATE_TOURNAMENT', update: tournament } );
+  const tournament = yield fetchActiveTournaments()
+  .then( result => {
+    if ( result ) {
+      return fetchActiveTournamentInfo( result );
+    } else {
+      return null
+    }
+  });
+  if ( tournament !== null ) {
+    yield put( { type: 'NEW_TOURNAMENT', update: tournament } );
+  } else {
+    const channel = yield call( subscribeToCreateTournament );
+    while ( true ) {
+      const action = yield take( channel );
+      yield put( action );
+    }
+  }
 }
 
 function subscribeToTournament( id ) {
@@ -222,9 +241,4 @@ export function* graphQLSaga() {
     takeEvery( 'NEW_TOURNAMENT', subscribeToTournamentUpdates ),
     takeEvery( 'DB_UPDATE_TOURNAMENT', dbUpdateTournament )
   ]);
-  const channel = yield call( subscribeToCreateTournament );
-  while ( true ) {
-    const action = yield take( channel );
-    yield put( action );
-  }
 }

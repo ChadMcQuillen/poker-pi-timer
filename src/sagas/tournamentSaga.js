@@ -34,6 +34,13 @@ function* updateTournament( { update } ) {
       case 'loading-to-pending':
         update.secondsRemaining = update.levelsAndBreaks[ 0 ].levelTime * 60;
         break;
+      case 'loading-to-running':
+        update.secondsRemaining = update.levelsAndBreaks[ update.currentLevelIndex ].levelTime * 60;
+        yield put( { type: 'START_TIMER' } );
+        break;
+      case 'loading-to-paused':
+        update.secondsRemaining = update.levelsAndBreaks[ update.currentLevelIndex ].levelTime * 60;
+        break;
       case 'pending-to-running':
       case 'paused-to-running':
         yield put( { type: 'START_TIMER' } );
