@@ -208,14 +208,6 @@ function dbUpdateTournament( update ) {
   .catch( console.error );
 }
 
-export function* graphQLWaitForTournamentSaga() {
-  const channel = yield call( subscribeToCreateTournament );
-  while ( true ) {
-    const action = yield take( channel );
-    yield put( action );
-  }
-}
-
 export function* subscribeToTournamentUpdates( { update: { id } } ) {
   const channel = yield call( subscribeToTournament, id );
   while ( true ) {
@@ -224,13 +216,15 @@ export function* subscribeToTournamentUpdates( { update: { id } } ) {
   }
 }
 
-export function* graphQLSubscriptionSaga() {
-  yield takeEvery( 'NEW_TOURNAMENT', subscribeToTournamentUpdates );
-}
-
 export function* graphQLSaga() {
   yield all([
     takeEvery( 'FETCH_TOURNAMENT', fetchTournament ),
+    takeEvery( 'NEW_TOURNAMENT', subscribeToTournamentUpdates ),
     takeEvery( 'DB_UPDATE_TOURNAMENT', dbUpdateTournament )
   ]);
+  const channel = yield call( subscribeToCreateTournament );
+  while ( true ) {
+    const action = yield take( channel );
+    yield put( action );
+  }
 }
