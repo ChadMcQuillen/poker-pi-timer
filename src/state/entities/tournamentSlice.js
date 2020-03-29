@@ -19,4 +19,4 @@ export const {
   update
 } = tournamentSlice.actions;
 
-export const getTournament = state => state.entities.tournament;
+export const getTournament = state => state.entities.tournament.tournament;

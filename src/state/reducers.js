@@ -1,7 +1,7 @@
 import { combineReducers } from 'redux'
 
-import { tournamentSlice } from 'state/entities/tournamentSlice';
+import { entitiesReducer } from './entities/reducers';
 
 export const rootReducer = combineReducers({
-  entities: tournamentSlice.reducer
+  entities: entitiesReducer
 });
